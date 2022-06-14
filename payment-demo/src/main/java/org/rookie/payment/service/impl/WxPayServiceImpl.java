@@ -53,9 +53,9 @@ public class WxPayServiceImpl implements WxPayService {
     IOrderInfoService orderInfoService;
 
     @Override
-    public Map nativePay(Long productId) throws Exception {
+    public Map nativePay(Long productId, PayType payType) throws Exception {
         log.info("创建订单");
-        OrderInfo order = orderInfoService.createOrder(productId);
+        OrderInfo order = orderInfoService.createOrder(productId, payType);
         String codeUrl = order.getCodeUrl();
         if (codeUrl != null && codeUrl != "") {
             HashMap<String, Object> respMap = new HashMap();

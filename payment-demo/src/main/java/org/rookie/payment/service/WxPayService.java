@@ -1,5 +1,7 @@
 package org.rookie.payment.service;
 
+import org.rookie.payment.enums.PayType;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -10,7 +12,7 @@ import java.util.Map;
  * @Version 1.0
  */
 public interface WxPayService {
-    Map nativePay(Long productId) throws Exception;
+    Map nativePay(Long productId, PayType payType) throws Exception;
 
     void processOrder(Map bodyMap);
 

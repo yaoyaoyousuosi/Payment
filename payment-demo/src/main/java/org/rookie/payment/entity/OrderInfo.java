@@ -70,5 +70,7 @@ public class OrderInfo implements Serializable {
      */
     private Date updateTime;
 
+    private String paymentType;
+
 
 }

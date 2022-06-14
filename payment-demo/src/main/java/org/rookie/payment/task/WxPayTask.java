@@ -29,28 +29,28 @@ public class WxPayTask {
      * * 1,2,3：第1、2、3秒执行
      * * ?：不指定，若指定日期，则不指定周，反之同理
      */
-    @Resource
-    private IOrderInfoService orderInfoService;
-    @Resource
-    private WxPayService wxPayService;
-    @Scheduled(cron = "0/300 * * * * ?")
-    public void orderConfirmStatus() throws IOException {
-        log.info("查询订单支付状态定时任务触发");
-        // TODO: 2022/6/12  查询超过五分钟/等于五分钟未支付的订单
-        List<OrderInfo> orders = orderInfoService.queryOrderByTimeOut();
-        // TODO: 2022/6/12  调用微信查单接口校验订单真实状态,更新本地库
-        for (OrderInfo order : orders) {
-            wxPayService.updateTimeOutWithNoNotifyOrder(order.getOrderNo());
-        }
-    }
-    @Resource
-    private IRefundInfoService refundInfoService;
-    @Scheduled(cron = "0/300 * * * * ?")
-    public void orderConfirmRefundStatus() throws IOException {
-        log.info("查询退款状态定时任务触发");
-        List<RefundInfo> refunds = refundInfoService.queryRefundByTimeOut();
-        for (RefundInfo refund : refunds) {
-            wxPayService.updateNoNotifyRefund(refund.getRefundNo());
-        }
-    }
+//    @Resource
+//    private IOrderInfoService orderInfoService;
+//    @Resource
+//    private WxPayService wxPayService;
+//    @Scheduled(cron = "0/300 * * * * ?")
+//    public void orderConfirmStatus() throws IOException {
+//        log.info("查询订单支付状态定时任务触发");
+//        // TODO: 2022/6/12  查询超过五分钟/等于五分钟未支付的订单
+//        List<OrderInfo> orders = orderInfoService.queryOrderByTimeOut();
+//        // TODO: 2022/6/12  调用微信查单接口校验订单真实状态,更新本地库
+//        for (OrderInfo order : orders) {
+//            wxPayService.updateTimeOutWithNoNotifyOrder(order.getOrderNo());
+//        }
+//    }
+//    @Resource
+//    private IRefundInfoService refundInfoService;
+//    @Scheduled(cron = "0/300 * * * * ?")
+//    public void orderConfirmRefundStatus() throws IOException {
+//        log.info("查询退款状态定时任务触发");
+//        List<RefundInfo> refunds = refundInfoService.queryRefundByTimeOut();
+//        for (RefundInfo refund : refunds) {
+//            wxPayService.updateNoNotifyRefund(refund.getRefundNo());
+//        }
+//    }
 }

@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.rookie.payment.config.WxPayProperties;
+import org.rookie.payment.enums.PayType;
 import org.rookie.payment.service.WxPayService;
 import org.rookie.payment.util.HttpUtils;
 import org.rookie.payment.vo.RespBean;
@@ -38,10 +39,11 @@ public class WxPayController {
     WxPayProperties wxPayProperties;
     @Resource
     Verifier verifier;
+
     @ApiOperation("创建订单")
     @PostMapping("/native/{productId}")
     public RespBean nativePay(@PathVariable Long productId) throws Exception {
-        Map map = wxPayService.nativePay(productId);
+        Map map = wxPayService.nativePay(productId, PayType.WXPAY);
         return new RespBean(200,"success",map);
     }
 

@@ -2,9 +2,11 @@ package org.rookie.payment.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.rookie.payment.entity.OrderInfo;
 import org.rookie.payment.entity.Product;
 import org.rookie.payment.enums.OrderStatus;
+import org.rookie.payment.enums.PayType;
 import org.rookie.payment.mapper.OrderInfoMapper;
 import org.rookie.payment.mapper.ProductMapper;
 import org.rookie.payment.service.IOrderInfoService;
@@ -27,11 +29,12 @@ import java.util.List;
  * @since 2022-06-10
  */
 @Service
+@Slf4j
 public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo> implements IOrderInfoService {
     @Resource
     ProductMapper productMapper;
     @Override
-    public OrderInfo createOrder(Long productId) {
+    public OrderInfo createOrder(Long productId, PayType payType) {
         OrderInfo existOrderInfo = queryOrderByProductIdWithStatus(productId);
         if(existOrderInfo != null){
             return existOrderInfo;
@@ -44,6 +47,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
         orderInfo.setOrderNo(OrderNoUtils.getOrderNo());
         orderInfo.setTotalFee(product.getPrice());
+        orderInfo.setPaymentType(payType.getType());
         baseMapper.insert(orderInfo);
         return orderInfo;
     }
@@ -98,11 +102,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public List<OrderInfo> queryOrderByTimeOut() {
+    public List<OrderInfo> queryOrderByTimeOut(int minus, PayType payType) {
+        log.info("查单接口调用");
         // 获取当前时间戳,minus(要减去的时间量)
-        Instant past = Instant.now().minus(Duration.ofMinutes(5));
+        Instant past = Instant.now().minus(Duration.ofMinutes(minus));
         LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper();
         queryWrapper.eq(OrderInfo::getOrderStatus,OrderStatus.NOTPAY.getType());
+        queryWrapper.eq(OrderInfo::getPaymentType,payType.getType());
         // lean equals
         queryWrapper.le(OrderInfo::getCreateTime,past);
         return baseMapper.selectList(queryWrapper);

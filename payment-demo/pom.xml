@@ -65,14 +65,17 @@
 			<artifactId>wechatpay-apache-httpclient</artifactId>
 			<version>0.4.7</version>
 		</dependency>
-
-
 		<!--json处理-->
 		<dependency>
             <groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
-
+<!--阿里sdk-->
+		<dependency>
+			<groupId>com.alipay.sdk</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>4.31.7.ALL</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

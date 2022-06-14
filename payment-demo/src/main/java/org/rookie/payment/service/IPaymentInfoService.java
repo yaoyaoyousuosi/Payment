@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPaymentInfoService extends IService<PaymentInfo> {
     void createPaymentInfo(String plainText);
+
+    void createPaymentInfoByAliPay(String toJson);
 }

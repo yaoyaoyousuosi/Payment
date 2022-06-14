@@ -3,6 +3,8 @@ package org.rookie.payment.service;
 import org.rookie.payment.entity.OrderInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.rookie.payment.enums.OrderStatus;
+import org.rookie.payment.enums.PayType;
+
 import java.util.List;
 
 /**
@@ -14,7 +16,7 @@ import java.util.List;
  * @since 2022-06-10
  */
 public interface  IOrderInfoService extends IService<OrderInfo> {
-    OrderInfo createOrder(Long productId);
+    OrderInfo createOrder(Long productId, PayType payType);
 
     void saveCodeUrl(String codeUrl, String orderNo);
 
@@ -25,5 +27,5 @@ public interface  IOrderInfoService extends IService<OrderInfo> {
 
     OrderInfo queryOrderStatusByOrderNo(String orderNo);
 
-    List<OrderInfo> queryOrderByTimeOut();
+    List<OrderInfo> queryOrderByTimeOut(int minus, PayType payType);
 }
